@@ -1,0 +1,45 @@
+{
+  "name": "@rowanmanning/render-error-page",
+  "version": "0.0.0",
+  "description": "Render nice error pages with Express",
+  "keywords": [
+    "error",
+    "express",
+    "render"
+  ],
+  "author": "Rowan Manning (https://rowanmanning.com/)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rowanmanning/render-error-page.git"
+  },
+  "homepage": "https://github.com/rowanmanning/render-error-page",
+  "bugs": "https://github.com/rowanmanning/render-error-page/issues",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10",
+    "npm": ">=6.9.0"
+  },
+  "peerDependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@rowanmanning/eslint-config": "^2.1.0",
+    "@rowanmanning/make": "^1.2.0",
+    "eslint": "^6.5.1",
+    "express4": "npm:express@^4.17.1",
+    "express5": "npm:express@^5.0.0-alpha.7",
+    "hbs": "^4.0.6",
+    "http-errors": "^1.7.3",
+    "mocha": "^6.2.1",
+    "mockery": "^2.1.0",
+    "nyc": "^14.1.1",
+    "proclaim": "^3.6.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7",
+    "sinon": "^7.5.0"
+  },
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "make ci"
+  }
+}
