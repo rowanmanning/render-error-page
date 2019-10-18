@@ -79,7 +79,7 @@ You can configure the middleware using a few different options:
 
 ```js
 app.use(renderErrorPage({
-	exampleOption: true
+    exampleOption: true
 }));
 ```
 
