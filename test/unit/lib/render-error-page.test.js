@@ -24,6 +24,7 @@ describe('lib/render-error-page', () => {
 			sinon.spy(Object, 'assign');
 			userOptions = {
 				defaultStatusCode: 1234,
+				errorLogger: sinon.stub(),
 				errorView: 'mock-error',
 				includeErrorStack: true
 			};
@@ -43,6 +44,7 @@ describe('lib/render-error-page', () => {
 			assert.isObject(Object.assign.firstCall.args[0]);
 			assert.deepEqual(Object.assign.firstCall.args[1], {
 				defaultStatusCode: 500,
+				errorLogger: console.error,
 				errorView: 'error',
 				includeErrorStack: (process.env.NODE_ENV !== 'production')
 			});
@@ -102,12 +104,20 @@ describe('lib/render-error-page', () => {
 				assert.isUndefined(returnValue);
 			});
 
+			it('logs the error using `options.errorLogger`', () => {
+				assert.calledOnce(userOptions.errorLogger);
+				assert.calledWithExactly(userOptions.errorLogger, error);
+			});
+
 			describe('when `response.render` calls back with an error', () => {
+				let renderError;
 
 				beforeEach(() => {
+					userOptions.errorLogger.reset();
 					response.send.reset();
 					response.status.reset();
-					response.render.yields(new Error('mock render error'));
+					renderError = new Error('mock render error');
+					response.render.yields(renderError);
 					next = sinon.spy();
 					returnValue = middleware(error, {}, response, next);
 				});
@@ -133,6 +143,12 @@ describe('lib/render-error-page', () => {
 
 				it('returns nothing', () => {
 					assert.isUndefined(returnValue);
+				});
+
+				it('logs the error and the render error using `options.errorLogger`', () => {
+					assert.calledTwice(userOptions.errorLogger);
+					assert.calledWithExactly(userOptions.errorLogger, error);
+					assert.calledWithExactly(userOptions.errorLogger, renderError);
 				});
 
 			});
