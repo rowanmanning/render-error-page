@@ -23,7 +23,7 @@ describe('lib/render-error-page', () => {
 			process.env.NODE_ENV = 'test';
 			sinon.spy(Object, 'assign');
 			userOptions = {
-				defaultStatusCode: 1234,
+				defaultStatusCode: 567,
 				errorLogger: sinon.stub(),
 				errorView: 'mock-error',
 				includeErrorStack: true
@@ -75,7 +75,7 @@ describe('lib/render-error-page', () => {
 
 			it('responds with the default status code', () => {
 				assert.calledOnce(response.status);
-				assert.calledWithExactly(response.status, 1234);
+				assert.calledWithExactly(response.status, 567);
 			});
 
 			it('renders the expected error view with error details and a callback', () => {
@@ -83,7 +83,7 @@ describe('lib/render-error-page', () => {
 				assert.calledWith(response.render, 'mock-error');
 				assert.deepEqual(response.render.firstCall.args[1], {
 					error: {
-						statusCode: 1234,
+						statusCode: 567,
 						message: 'mock error',
 						stack: error.stack
 					}
@@ -124,13 +124,13 @@ describe('lib/render-error-page', () => {
 
 				it('responds with the default status code', () => {
 					assert.calledOnce(response.status);
-					assert.calledWithExactly(response.status, 1234);
+					assert.calledWithExactly(response.status, 567);
 				});
 
 				it('responds with fallback HTML', () => {
 					assert.calledOnce(response.send);
 					const html = response.send.firstCall.args[0];
-					assert.include(html, 'Error 1234');
+					assert.include(html, 'Error 567');
 					assert.include(html, 'mock error');
 					assert.include(html, 'mock render error');
 					assert.include(html, 'There was also an issue rendering the error page');
@@ -158,20 +158,20 @@ describe('lib/render-error-page', () => {
 				beforeEach(() => {
 					response.render.reset();
 					response.status.reset();
-					error.statusCode = 5678;
+					error.statusCode = 568;
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('responds with the specified status code', () => {
 					assert.calledOnce(response.status);
-					assert.calledWithExactly(response.status, 5678);
+					assert.calledWithExactly(response.status, 568);
 				});
 
 				it('renders the expected error view with error details and a callback', () => {
 					assert.calledOnce(response.render);
 					assert.deepEqual(response.render.firstCall.args[1], {
 						error: {
-							statusCode: 5678,
+							statusCode: 568,
 							message: 'mock error',
 							stack: error.stack
 						}
@@ -185,20 +185,74 @@ describe('lib/render-error-page', () => {
 				beforeEach(() => {
 					response.render.reset();
 					response.status.reset();
-					error.status = 5678;
+					error.status = 568;
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('responds with the specified status code', () => {
 					assert.calledOnce(response.status);
-					assert.calledWithExactly(response.status, 5678);
+					assert.calledWithExactly(response.status, 568);
 				});
 
 				it('renders the expected error view with error details and a callback', () => {
 					assert.calledOnce(response.render);
 					assert.deepEqual(response.render.firstCall.args[1], {
 						error: {
-							statusCode: 5678,
+							statusCode: 568,
+							message: 'mock error',
+							stack: error.stack
+						}
+					});
+				});
+
+			});
+
+			describe('when `error` has a `statusCode` property less than 100', () => {
+
+				beforeEach(() => {
+					response.render.reset();
+					response.status.reset();
+					error.statusCode = 99;
+					returnValue = middleware(error, {}, response, next);
+				});
+
+				it('responds with a 500 status code', () => {
+					assert.calledOnce(response.status);
+					assert.calledWithExactly(response.status, 500);
+				});
+
+				it('renders the expected error view with error details and a callback', () => {
+					assert.calledOnce(response.render);
+					assert.deepEqual(response.render.firstCall.args[1], {
+						error: {
+							statusCode: 500,
+							message: 'mock error',
+							stack: error.stack
+						}
+					});
+				});
+
+			});
+
+			describe('when `error` has a `statusCode` property greater than 599', () => {
+
+				beforeEach(() => {
+					response.render.reset();
+					response.status.reset();
+					error.statusCode = 600;
+					returnValue = middleware(error, {}, response, next);
+				});
+
+				it('responds with a 500 status code', () => {
+					assert.calledOnce(response.status);
+					assert.calledWithExactly(response.status, 500);
+				});
+
+				it('renders the expected error view with error details and a callback', () => {
+					assert.calledOnce(response.render);
+					assert.deepEqual(response.render.firstCall.args[1], {
+						error: {
+							statusCode: 500,
 							message: 'mock error',
 							stack: error.stack
 						}
@@ -219,7 +273,7 @@ describe('lib/render-error-page', () => {
 					assert.calledOnce(response.render);
 					assert.deepEqual(response.render.firstCall.args[1], {
 						error: {
-							statusCode: 1234,
+							statusCode: 567,
 							message: 'mock error',
 							stack: null
 						}
@@ -237,7 +291,7 @@ describe('lib/render-error-page', () => {
 					it('responds with fallback HTML containing no error stacks', () => {
 						assert.calledOnce(response.send);
 						const html = response.send.firstCall.args[0];
-						assert.include(html, 'Error 1234');
+						assert.include(html, 'Error 567');
 						assert.include(html, 'mock error');
 						assert.include(html, 'mock render error');
 						assert.include(html, 'There was also an issue rendering the error page');
