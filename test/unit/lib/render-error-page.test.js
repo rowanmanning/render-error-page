@@ -25,6 +25,7 @@ describe('lib/render-error-page', () => {
 			userOptions = {
 				defaultStatusCode: 567,
 				errorLogger: sinon.stub(),
+				errorLoggingFilter: sinon.stub().returns(true),
 				errorView: 'mock-error',
 				includeErrorStack: true
 			};
@@ -42,12 +43,12 @@ describe('lib/render-error-page', () => {
 		it('defaults the user options', () => {
 			assert.calledOnce(Object.assign);
 			assert.isObject(Object.assign.firstCall.args[0]);
-			assert.deepEqual(Object.assign.firstCall.args[1], {
-				defaultStatusCode: 500,
-				errorLogger: console.error,
-				errorView: 'error',
-				includeErrorStack: (process.env.NODE_ENV !== 'production')
-			});
+			assert.strictEqual(Object.assign.firstCall.args[1].defaultStatusCode, 500);
+			assert.strictEqual(Object.assign.firstCall.args[1].errorLogger, console.error);
+			assert.isFunction(Object.assign.firstCall.args[1].errorLoggingFilter);
+			assert.isTrue(Object.assign.firstCall.args[1].errorLoggingFilter());
+			assert.strictEqual(Object.assign.firstCall.args[1].errorView, 'error');
+			assert.strictEqual(Object.assign.firstCall.args[1].includeErrorStack, (process.env.NODE_ENV !== 'production'));
 			assert.strictEqual(Object.assign.firstCall.args[2], userOptions);
 		});
 
@@ -102,6 +103,11 @@ describe('lib/render-error-page', () => {
 
 			it('returns nothing', () => {
 				assert.isUndefined(returnValue);
+			});
+
+			it('calls the `errorLoggingFilter` function with the error', () => {
+				assert.calledOnce(options.errorLoggingFilter);
+				assert.calledWithExactly(options.errorLoggingFilter, error);
 			});
 
 			it('logs the error using `options.errorLogger`', () => {
@@ -257,6 +263,25 @@ describe('lib/render-error-page', () => {
 							stack: error.stack
 						}
 					});
+				});
+
+			});
+
+			describe('when `options.errorLoggingFilter` returns `false`', () => {
+
+				beforeEach(() => {
+					userOptions.errorLogger.resetHistory();
+					options.errorLoggingFilter = sinon.stub().returns(false);
+					returnValue = middleware(error, {}, response, next);
+				});
+
+				it('calls the `errorLoggingFilter` function with the error', () => {
+					assert.calledOnce(options.errorLoggingFilter);
+					assert.calledWithExactly(options.errorLoggingFilter, error);
+				});
+
+				it('does not log the error details', () => {
+					assert.notCalled(userOptions.errorLogger);
 				});
 
 			});
