@@ -30,7 +30,7 @@
     "express5": "npm:express@^5.0.0-alpha.7",
     "hbs": "^4.0.6",
     "http-errors": "^1.7.3",
-    "mocha": "^7.1.0",
+    "mocha": "^8.3.2",
     "mockery": "^2.1.0",
     "nyc": "^15.0.0",
     "proclaim": "^3.6.0",
