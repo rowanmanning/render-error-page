@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('proclaim');
+const {assert} = require('chai');
 const createTestApp = require('./fixture/create-test-app');
 
 describe('Express 5', () => {
@@ -22,11 +22,11 @@ describe('Express 5', () => {
 		});
 
 		it('responds with a 404 status', () => {
-			assert.strictEqual(response.statusCode, 404);
+			assert.strictEqual(response.status, 404);
 		});
 
 		it('responds with the rendered view', () => {
-			assert.strictEqual(response.body, [
+			assert.strictEqual(response.data, [
 				'STATUS: 404',
 				'MESSAGE: Not Found',
 				''
@@ -43,11 +43,11 @@ describe('Express 5', () => {
 		});
 
 		it('responds with a 500 status', () => {
-			assert.strictEqual(response.statusCode, 500);
+			assert.strictEqual(response.status, 500);
 		});
 
 		it('responds with the rendered view', () => {
-			assert.strictEqual(response.body, [
+			assert.strictEqual(response.data, [
 				'STATUS: 500',
 				'MESSAGE: Internal Server Error',
 				''

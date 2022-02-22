@@ -16,7 +16,7 @@ Render nice error pages with [Express](https://expressjs.com).
 
 This library requires the following to run:
 
-  * [Node.js](https://nodejs.org/) 10+
+  * [Node.js](https://nodejs.org/) 12+
 
 
 ## Usage
@@ -97,8 +97,8 @@ The available options are:
 To contribute to this library, clone this repo locally and commit your code on a separate branch. Please write unit tests for your code, and run the linter before opening a pull-request:
 
 ```sh
-make test    # run all tests
-make verify  # run all linters
+npm run test    # run all tests
+npm run verify  # run all linters
 ```
 
 

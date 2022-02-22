@@ -1,39 +1,34 @@
 'use strict';
 
-const assert = require('proclaim');
-const sinon = require('sinon');
+const {assert} = require('chai');
+const td = require('testdouble');
 
 describe('lib/render-error-page', () => {
-	let express;
 	let renderErrorPage;
 
 	beforeEach(() => {
-		express = require('../mock/npm/express');
 		renderErrorPage = require('../../../lib/render-error-page');
 	});
 
 	describe('renderErrorPage(options)', () => {
 		let middleware;
-		let options;
 		let originalNodeEnv;
-		let userOptions;
+		let options;
 
 		beforeEach(() => {
 			originalNodeEnv = process.env.NODE_ENV;
 			process.env.NODE_ENV = 'test';
-			sinon.spy(Object, 'assign');
-			userOptions = {
+			options = {
 				defaultStatusCode: 567,
-				errorLogger: sinon.stub(),
-				errorLoggingFilter: sinon.stub().returns(true),
+				errorLogger: td.func(),
+				errorLoggingFilter: td.func(),
 				errorView: 'mock-error',
 				includeErrorStack: true
 			};
-			middleware = renderErrorPage(userOptions);
-
-			// Sneakily grab the options object used by the
-			// middleware so that we can make changes
-			options = Object.assign.firstCall.returnValue;
+			Object.assign = td.func();
+			td.when(Object.assign(), {ignoreExtraArgs: true}).thenReturn(options);
+			td.when(options.errorLoggingFilter(), {ignoreExtraArgs: true}).thenReturn(true);
+			middleware = renderErrorPage(options);
 		});
 
 		afterEach(() => {
@@ -41,15 +36,7 @@ describe('lib/render-error-page', () => {
 		});
 
 		it('defaults the user options', () => {
-			assert.calledOnce(Object.assign);
-			assert.isObject(Object.assign.firstCall.args[0]);
-			assert.strictEqual(Object.assign.firstCall.args[1].defaultStatusCode, 500);
-			assert.strictEqual(Object.assign.firstCall.args[1].errorLogger, console.error);
-			assert.isFunction(Object.assign.firstCall.args[1].errorLoggingFilter);
-			assert.isTrue(Object.assign.firstCall.args[1].errorLoggingFilter());
-			assert.strictEqual(Object.assign.firstCall.args[1].errorView, 'error');
-			assert.strictEqual(Object.assign.firstCall.args[1].includeErrorStack, (process.env.NODE_ENV !== 'production'));
-			assert.strictEqual(Object.assign.firstCall.args[2], userOptions);
+			td.verify(Object.assign({}, renderErrorPage.defaultOptions, options), {times: 1});
 		});
 
 		it('returns a middleware function', () => {
@@ -64,41 +51,46 @@ describe('lib/render-error-page', () => {
 
 			beforeEach(() => {
 				error = new Error('mock error');
-				response = express.mockResponse;
+				response = {
+					render: td.func(),
+					send: td.func(),
+					status: td.func()
+				};
 
 				// Note this has to be non-async for the purposes of
 				// testing because of the way Express works
-				response.render.yields(null, 'mock html');
+				td.when(response.render(
+					td.matchers.anything(),
+					td.matchers.anything()
+				)).thenCallback(null, 'mock html');
 
-				next = sinon.spy();
+				next = td.func();
 				returnValue = middleware(error, {}, response, next);
 			});
 
 			it('responds with the default status code', () => {
-				assert.calledOnce(response.status);
-				assert.calledWithExactly(response.status, 567);
+				td.verify(response.status(567), {times: 1});
 			});
 
 			it('renders the expected error view with error details and a callback', () => {
-				assert.calledOnce(response.render);
-				assert.calledWith(response.render, 'mock-error');
-				assert.deepEqual(response.render.firstCall.args[1], {
+				td.verify(response.render('mock-error', {
 					error: {
 						statusCode: 567,
 						message: 'mock error',
 						stack: error.stack
 					}
-				});
-				assert.isFunction(response.render.firstCall.args[2]);
+				}, td.matchers.isA(Function)), {times: 1});
 			});
 
 			it('responds with the rendered HTML', () => {
-				assert.calledOnce(response.send);
-				assert.calledWithExactly(response.send, 'mock html');
+				td.verify(response.send('mock html'), {times: 1});
 			});
 
 			it('does not call `next`', () => {
-				assert.notCalled(next);
+				td.verify(next(), {
+					ignoreExtraArgs: true,
+					times: 0
+				});
 			});
 
 			it('returns nothing', () => {
@@ -106,55 +98,47 @@ describe('lib/render-error-page', () => {
 			});
 
 			it('calls the `errorLoggingFilter` function with the error', () => {
-				assert.calledOnce(options.errorLoggingFilter);
-				assert.calledWithExactly(options.errorLoggingFilter, error);
+				td.verify(options.errorLoggingFilter(error), {times: 1});
 			});
 
 			it('logs the error using `options.errorLogger`', () => {
-				assert.calledOnce(userOptions.errorLogger);
-				assert.calledWithExactly(userOptions.errorLogger, error);
+				td.verify(options.errorLogger(error), {times: 1});
 			});
 
 			describe('when `response.render` calls back with an error', () => {
 				let renderError;
 
 				beforeEach(() => {
-					userOptions.errorLogger.reset();
-					response.send.reset();
-					response.status.reset();
 					renderError = new Error('mock render error');
-					response.render.yields(renderError);
-					next = sinon.spy();
+					response.status = td.func();
+					response.send = td.func();
+					td.when(response.render(
+						td.matchers.anything(),
+						td.matchers.anything()
+					)).thenCallback(renderError);
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('responds with the default status code', () => {
-					assert.calledOnce(response.status);
-					assert.calledWithExactly(response.status, 567);
+					td.verify(response.status(567), {times: 1});
 				});
 
 				it('responds with fallback HTML', () => {
-					assert.calledOnce(response.send);
-					const html = response.send.firstCall.args[0];
-					assert.include(html, 'Error 567');
-					assert.include(html, 'mock error');
-					assert.include(html, 'mock render error');
-					assert.include(html, 'There was also an issue rendering the error page');
-					assert.include(html, '<pre>'); // Indicates that stacks are present
-				});
-
-				it('does not call `next`', () => {
-					assert.notCalled(next);
+					td.verify(response.send(td.matchers.isA(String)), {times: 1});
+					td.verify(response.send(td.matchers.contains('Error 567')), {times: 1});
+					td.verify(response.send(td.matchers.contains('mock error')), {times: 1});
+					td.verify(response.send(td.matchers.contains('There was also an issue rendering the error page')), {times: 1});
+					td.verify(response.send(td.matchers.contains('<pre>')), {times: 1}); // Indicates that stacks are present
 				});
 
 				it('returns nothing', () => {
 					assert.isUndefined(returnValue);
 				});
 
-				it('logs the error and the render error using `options.errorLogger`', () => {
-					assert.calledTwice(userOptions.errorLogger);
-					assert.calledWithExactly(userOptions.errorLogger, error);
-					assert.calledWithExactly(userOptions.errorLogger, renderError);
+				it('logs the render error using `options.errorLogger`', () => {
+					td.verify(options.errorLogger(renderError), {
+						times: 1
+					});
 				});
 
 			});
@@ -162,26 +146,23 @@ describe('lib/render-error-page', () => {
 			describe('when `error` has a `statusCode` property', () => {
 
 				beforeEach(() => {
-					response.render.reset();
-					response.status.reset();
+					response.status = td.func();
 					error.statusCode = 568;
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('responds with the specified status code', () => {
-					assert.calledOnce(response.status);
-					assert.calledWithExactly(response.status, 568);
+					td.verify(response.status(568), {times: 1});
 				});
 
 				it('renders the expected error view with error details and a callback', () => {
-					assert.calledOnce(response.render);
-					assert.deepEqual(response.render.firstCall.args[1], {
+					td.verify(response.render('mock-error', {
 						error: {
 							statusCode: 568,
 							message: 'mock error',
 							stack: error.stack
 						}
-					});
+					}, td.matchers.isA(Function)), {times: 1});
 				});
 
 			});
@@ -189,26 +170,23 @@ describe('lib/render-error-page', () => {
 			describe('when `error` has a `status` property', () => {
 
 				beforeEach(() => {
-					response.render.reset();
-					response.status.reset();
+					response.status = td.func();
 					error.status = 568;
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('responds with the specified status code', () => {
-					assert.calledOnce(response.status);
-					assert.calledWithExactly(response.status, 568);
+					td.verify(response.status(568), {times: 1});
 				});
 
 				it('renders the expected error view with error details and a callback', () => {
-					assert.calledOnce(response.render);
-					assert.deepEqual(response.render.firstCall.args[1], {
+					td.verify(response.render('mock-error', {
 						error: {
 							statusCode: 568,
 							message: 'mock error',
 							stack: error.stack
 						}
-					});
+					}, td.matchers.isA(Function)), {times: 1});
 				});
 
 			});
@@ -216,26 +194,23 @@ describe('lib/render-error-page', () => {
 			describe('when `error` has a `statusCode` property less than 100', () => {
 
 				beforeEach(() => {
-					response.render.reset();
-					response.status.reset();
-					error.statusCode = 99;
+					response.status = td.func();
+					error.status = 99;
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('responds with a 500 status code', () => {
-					assert.calledOnce(response.status);
-					assert.calledWithExactly(response.status, 500);
+					td.verify(response.status(500), {times: 1});
 				});
 
 				it('renders the expected error view with error details and a callback', () => {
-					assert.calledOnce(response.render);
-					assert.deepEqual(response.render.firstCall.args[1], {
+					td.verify(response.render('mock-error', {
 						error: {
 							statusCode: 500,
 							message: 'mock error',
 							stack: error.stack
 						}
-					});
+					}, td.matchers.isA(Function)), {times: 1});
 				});
 
 			});
@@ -243,26 +218,23 @@ describe('lib/render-error-page', () => {
 			describe('when `error` has a `statusCode` property greater than 599', () => {
 
 				beforeEach(() => {
-					response.render.reset();
-					response.status.reset();
-					error.statusCode = 600;
+					response.status = td.func();
+					error.status = 600;
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('responds with a 500 status code', () => {
-					assert.calledOnce(response.status);
-					assert.calledWithExactly(response.status, 500);
+					td.verify(response.status(500), {times: 1});
 				});
 
 				it('renders the expected error view with error details and a callback', () => {
-					assert.calledOnce(response.render);
-					assert.deepEqual(response.render.firstCall.args[1], {
+					td.verify(response.render('mock-error', {
 						error: {
 							statusCode: 500,
 							message: 'mock error',
 							stack: error.stack
 						}
-					});
+					}, td.matchers.isA(Function)), {times: 1});
 				});
 
 			});
@@ -270,18 +242,19 @@ describe('lib/render-error-page', () => {
 			describe('when `options.errorLoggingFilter` returns `false`', () => {
 
 				beforeEach(() => {
-					userOptions.errorLogger.resetHistory();
-					options.errorLoggingFilter = sinon.stub().returns(false);
+					options.errorLogger = td.func();
+					options.errorLoggingFilter = td.func();
+					td.when(options.errorLoggingFilter(), {ignoreExtraArgs: true}).thenReturn(false);
+					middleware = renderErrorPage(options);
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('calls the `errorLoggingFilter` function with the error', () => {
-					assert.calledOnce(options.errorLoggingFilter);
-					assert.calledWithExactly(options.errorLoggingFilter, error);
+					td.verify(options.errorLoggingFilter(error), {times: 1});
 				});
 
 				it('does not log the error details', () => {
-					assert.notCalled(userOptions.errorLogger);
+					td.verify(options.errorLogger(error), {times: 0});
 				});
 
 			});
@@ -289,44 +262,79 @@ describe('lib/render-error-page', () => {
 			describe('when `options.includeErrorStack` is `false`', () => {
 
 				beforeEach(() => {
-					response.render.reset();
 					options.includeErrorStack = false;
+					middleware = renderErrorPage(options);
 					returnValue = middleware(error, {}, response, next);
 				});
 
 				it('renders the expected error view with error details and a callback, not including the error stack', () => {
-					assert.calledOnce(response.render);
-					assert.deepEqual(response.render.firstCall.args[1], {
+					td.verify(response.render('mock-error', {
 						error: {
 							statusCode: 567,
 							message: 'mock error',
 							stack: null
 						}
-					});
+					}, td.matchers.isA(Function)), {times: 1});
 				});
 
 				describe('when `response.render` calls back with an error', () => {
+					let renderError;
 
 					beforeEach(() => {
-						response.send.reset();
-						response.render.yields(new Error('mock render error'));
+						renderError = new Error('mock render error');
+						response.status = td.func();
+						response.send = td.func();
+						td.when(response.render(
+							td.matchers.anything(),
+							td.matchers.anything()
+						)).thenCallback(renderError);
 						returnValue = middleware(error, {}, response, next);
 					});
 
 					it('responds with fallback HTML containing no error stacks', () => {
-						assert.calledOnce(response.send);
-						const html = response.send.firstCall.args[0];
-						assert.include(html, 'Error 567');
-						assert.include(html, 'mock error');
-						assert.include(html, 'mock render error');
-						assert.include(html, 'There was also an issue rendering the error page');
-						assert.doesNotInclude(html, '<pre>'); // Indicates that stacks are present
+						td.verify(response.send(td.matchers.isA(String)), {times: 1});
+						td.verify(response.send(td.matchers.contains('<pre>')), {times: 0}); // Indicates that stacks are not present
 					});
 
 				});
 
 			});
 
+		});
+
+	});
+
+	describe('.defaultOptions', () => {
+
+		describe('.defaultStatusCode', () => {
+			it('is set to `500`', () => {
+				assert.strictEqual(renderErrorPage.defaultOptions.defaultStatusCode, 500);
+			});
+		});
+
+		describe('.errorLogger', () => {
+			it('is set to `console.error`', () => {
+				assert.strictEqual(renderErrorPage.defaultOptions.errorLogger, console.error);
+			});
+		});
+
+		describe('.errorLoggingFilter', () => {
+			it('is set to a function that returns true', () => {
+				assert.instanceOf(renderErrorPage.defaultOptions.errorLoggingFilter, Function);
+				assert.isTrue(renderErrorPage.defaultOptions.errorLoggingFilter());
+			});
+		});
+
+		describe('.errorView', () => {
+			it('is set to `"error"`', () => {
+				assert.strictEqual(renderErrorPage.defaultOptions.errorView, 'error');
+			});
+		});
+
+		describe('.includeErrorStack', () => {
+			it('is set to a boolean', () => {
+				assert.strictEqual(renderErrorPage.defaultOptions.includeErrorStack, (process.env.NODE_ENV !== 'production'));
+			});
 		});
 
 	});

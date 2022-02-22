@@ -1,7 +1,7 @@
 'use strict';
 
 const createHttpError = require('http-errors');
-const httpRequest = require('request-promise-native');
+const httpRequest = require('axios');
 const path = require('path');
 const renderErrorPage = require('../../../lib/render-error-page');
 
@@ -20,7 +20,9 @@ module.exports = async function createTestApp(expressModule) {
 	});
 
 	// Add an error handler
-	app.use(renderErrorPage());
+	app.use(renderErrorPage({
+		errorLoggingFilter: () => false
+	}));
 
 	// Start the server and get the application address
 	const server = await start(app);
@@ -34,9 +36,11 @@ module.exports = async function createTestApp(expressModule) {
 	// Method to make a GET request to the test application,
 	// required by tests
 	function get(requestPath) {
-		return httpRequest(`${address}${requestPath}`, {
-			resolveWithFullResponse: true,
-			simple: false
+		return httpRequest({
+			url: `${address}${requestPath}`,
+			validateStatus() {
+				return true;
+			}
 		});
 	}
 

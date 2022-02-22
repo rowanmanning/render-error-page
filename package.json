@@ -16,30 +16,41 @@
   "bugs": "https://github.com/rowanmanning/render-error-page/issues",
   "license": "MIT",
   "engines": {
-    "node": ">=10",
-    "npm": ">=6.9.0"
+    "node": ">=12",
+    "npm": ">=7"
+  },
+  "scripts": {
+    "test": "npm run test:coverage && npm run test:integration",
+    "verify": "eslint .",
+    "test:unit": "mocha 'test/unit/**/*.test.js'",
+    "test:coverage": "nyc npm run test:unit",
+    "test:integration": "mocha 'test/integration/**/*.test.js'"
   },
   "peerDependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.3"
   },
   "devDependencies": {
-    "@rowanmanning/eslint-config": "^2.1.0",
-    "@rowanmanning/make": "^2.0.0",
-    "eslint": "^6.8.0",
-    "express4": "npm:express@^4.17.1",
-    "express5": "npm:express@^5.0.0-alpha.7",
-    "hbs": "^4.0.6",
-    "http-errors": "^1.7.3",
-    "mocha": "^7.1.0",
-    "mockery": "^2.1.0",
-    "nyc": "^15.0.0",
-    "proclaim": "^3.6.0",
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.7",
-    "sinon": "^9.0.1"
+    "@rowanmanning/eslint-config": "^3.2.1",
+    "axios": "^0.26.0",
+    "chai": "^4.3.6",
+    "eslint": "^8.9.0",
+    "express4": "npm:express@^4.17.3",
+    "express5": "npm:express@^5.0.0-beta.1",
+    "hbs": "^4.2.0",
+    "http-errors": "^2.0.0",
+    "mocha": "^9.2.1",
+    "nyc": "^15.1.0",
+    "testdouble": "^3.16.4"
   },
-  "main": "./lib/index.js",
-  "scripts": {
-    "test": "make ci"
+  "main": "lib/render-error-page.js",
+  "nyc": {
+    "reporter": [
+      "html",
+      "text"
+    ],
+    "eager": true
+  },
+  "mocha": {
+    "timeout": 10000
   }
 }
