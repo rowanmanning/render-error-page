@@ -24,7 +24,9 @@
     "verify": "eslint .",
     "test:unit": "mocha 'test/unit/**/*.test.js'",
     "test:coverage": "nyc npm run test:unit",
-    "test:integration": "mocha 'test/integration/**/*.test.js'"
+    "test:integration": "mocha 'test/integration/**/*.test.js'",
+    "project:verify": "npx --yes @rowanmanning/validate-project --type git node-library",
+    "project:fix": "npx --yes @rowanmanning/validate-project --type git node-library --fix"
   },
   "peerDependencies": {
     "express": "^4.17.3"

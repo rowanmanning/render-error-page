@@ -94,12 +94,7 @@ The available options are:
 
 ## Contributing
 
-To contribute to this library, clone this repo locally and commit your code on a separate branch. Please write unit tests for your code, and run the linter before opening a pull-request:
-
-```sh
-npm run test    # run all tests
-npm run verify  # run all linters
-```
+[The contributing guide is available here](docs/contributing.md). All contributors must follow [this library's code of conduct](docs/code_of_conduct.md).
 
 
 ## License
