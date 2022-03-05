@@ -7,6 +7,7 @@ describe('lib/render-error-page', () => {
 	let renderErrorPage;
 
 	beforeEach(() => {
+		td.replace(console, 'error');
 		renderErrorPage = require('../../../lib/render-error-page');
 	});
 
@@ -47,11 +48,15 @@ describe('lib/render-error-page', () => {
 		describe('middleware(error, request, response, next)', () => {
 			let error;
 			let returnValue;
+			let request;
 			let response;
 			let next;
 
 			beforeEach(() => {
 				error = new Error('mock error');
+				request = {
+					isMockRequest: true
+				};
 				response = {
 					render: td.func(),
 					send: td.func(),
@@ -68,7 +73,7 @@ describe('lib/render-error-page', () => {
 				td.when(options.errorLoggingSerializer(error)).thenReturn('mock-serialized-error');
 
 				next = td.func();
-				returnValue = middleware(error, {}, response, next);
+				returnValue = middleware(error, request, response, next);
 			});
 
 			it('responds with the default status code', () => {
@@ -109,7 +114,7 @@ describe('lib/render-error-page', () => {
 			});
 
 			it('logs the serialized error using `options.errorLogger`', () => {
-				td.verify(options.errorLogger('mock-serialized-error'), {times: 1});
+				td.verify(options.errorLogger('mock-serialized-error', request), {times: 1});
 			});
 
 			describe('when `response.render` calls back with an error', () => {
@@ -124,7 +129,7 @@ describe('lib/render-error-page', () => {
 						td.matchers.anything()
 					)).thenCallback(renderError);
 					td.when(options.errorLoggingSerializer(renderError)).thenReturn('mock-serialized-render-error');
-					returnValue = middleware(error, {}, response, next);
+					returnValue = middleware(error, request, response, next);
 				});
 
 				it('responds with the default status code', () => {
@@ -148,7 +153,7 @@ describe('lib/render-error-page', () => {
 				});
 
 				it('logs the serialized render error using `options.errorLogger`', () => {
-					td.verify(options.errorLogger('mock-serialized-render-error'), {times: 1});
+					td.verify(options.errorLogger('mock-serialized-render-error', request), {times: 1});
 				});
 
 			});
@@ -158,7 +163,7 @@ describe('lib/render-error-page', () => {
 				beforeEach(() => {
 					response.status = td.func();
 					error.statusCode = 568;
-					returnValue = middleware(error, {}, response, next);
+					returnValue = middleware(error, request, response, next);
 				});
 
 				it('responds with the specified status code', () => {
@@ -182,7 +187,7 @@ describe('lib/render-error-page', () => {
 				beforeEach(() => {
 					response.status = td.func();
 					error.status = 568;
-					returnValue = middleware(error, {}, response, next);
+					returnValue = middleware(error, request, response, next);
 				});
 
 				it('responds with the specified status code', () => {
@@ -206,7 +211,7 @@ describe('lib/render-error-page', () => {
 				beforeEach(() => {
 					response.status = td.func();
 					error.status = 99;
-					returnValue = middleware(error, {}, response, next);
+					returnValue = middleware(error, request, response, next);
 				});
 
 				it('responds with a 500 status code', () => {
@@ -230,7 +235,7 @@ describe('lib/render-error-page', () => {
 				beforeEach(() => {
 					response.status = td.func();
 					error.status = 600;
-					returnValue = middleware(error, {}, response, next);
+					returnValue = middleware(error, request, response, next);
 				});
 
 				it('responds with a 500 status code', () => {
@@ -256,7 +261,7 @@ describe('lib/render-error-page', () => {
 					options.errorLoggingFilter = td.func();
 					td.when(options.errorLoggingFilter(), {ignoreExtraArgs: true}).thenReturn(false);
 					middleware = renderErrorPage(options);
-					returnValue = middleware(error, {}, response, next);
+					returnValue = middleware(error, request, response, next);
 				});
 
 				it('calls the `errorLoggingFilter` function with the error', () => {
@@ -264,7 +269,7 @@ describe('lib/render-error-page', () => {
 				});
 
 				it('does not log the error details', () => {
-					td.verify(options.errorLogger(error), {times: 0});
+					td.verify(options.errorLogger(error, request), {times: 0});
 				});
 
 			});
@@ -274,7 +279,7 @@ describe('lib/render-error-page', () => {
 				beforeEach(() => {
 					options.includeErrorStack = false;
 					middleware = renderErrorPage(options);
-					returnValue = middleware(error, {}, response, next);
+					returnValue = middleware(error, request, response, next);
 				});
 
 				it('renders the expected error view with error details and a callback, not including the error stack', () => {
@@ -298,7 +303,7 @@ describe('lib/render-error-page', () => {
 							td.matchers.anything(),
 							td.matchers.anything()
 						)).thenCallback(renderError);
-						returnValue = middleware(error, {}, response, next);
+						returnValue = middleware(error, request, response, next);
 					});
 
 					it('responds with fallback HTML containing no error stacks', () => {
@@ -323,8 +328,11 @@ describe('lib/render-error-page', () => {
 		});
 
 		describe('.errorLogger', () => {
-			it('is set to `console.error`', () => {
-				assert.strictEqual(renderErrorPage.defaultOptions.errorLogger, console.error);
+			it('is set to a function that calls `console.error`', () => {
+				assert.isFunction(renderErrorPage.defaultOptions.errorLogger);
+				td.verify(console.error('mock-error'), {times: 0});
+				renderErrorPage.defaultOptions.errorLogger('mock-error');
+				td.verify(console.error('mock-error'), {times: 1});
 			});
 		});
 
