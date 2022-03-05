@@ -22,6 +22,7 @@ describe('lib/render-error-page', () => {
 				defaultStatusCode: 567,
 				errorLogger: td.func(),
 				errorLoggingFilter: td.func(),
+				errorLoggingSerializer: td.func(),
 				errorView: 'mock-error',
 				includeErrorStack: true
 			};
@@ -64,6 +65,8 @@ describe('lib/render-error-page', () => {
 					td.matchers.anything()
 				)).thenCallback(null, 'mock html');
 
+				td.when(options.errorLoggingSerializer(error)).thenReturn('mock-serialized-error');
+
 				next = td.func();
 				returnValue = middleware(error, {}, response, next);
 			});
@@ -101,8 +104,12 @@ describe('lib/render-error-page', () => {
 				td.verify(options.errorLoggingFilter(error), {times: 1});
 			});
 
-			it('logs the error using `options.errorLogger`', () => {
-				td.verify(options.errorLogger(error), {times: 1});
+			it('calls the `errorLoggingSerializer` function with the error', () => {
+				td.verify(options.errorLoggingSerializer(error), {times: 1});
+			});
+
+			it('logs the serialized error using `options.errorLogger`', () => {
+				td.verify(options.errorLogger('mock-serialized-error'), {times: 1});
 			});
 
 			describe('when `response.render` calls back with an error', () => {
@@ -116,6 +123,7 @@ describe('lib/render-error-page', () => {
 						td.matchers.anything(),
 						td.matchers.anything()
 					)).thenCallback(renderError);
+					td.when(options.errorLoggingSerializer(renderError)).thenReturn('mock-serialized-render-error');
 					returnValue = middleware(error, {}, response, next);
 				});
 
@@ -135,10 +143,12 @@ describe('lib/render-error-page', () => {
 					assert.isUndefined(returnValue);
 				});
 
-				it('logs the render error using `options.errorLogger`', () => {
-					td.verify(options.errorLogger(renderError), {
-						times: 1
-					});
+				it('calls the `errorLoggingSerializer` function with the render error', () => {
+					td.verify(options.errorLoggingSerializer(renderError), {times: 1});
+				});
+
+				it('logs the serialized render error using `options.errorLogger`', () => {
+					td.verify(options.errorLogger('mock-serialized-render-error'), {times: 1});
 				});
 
 			});
@@ -322,6 +332,13 @@ describe('lib/render-error-page', () => {
 			it('is set to a function that returns true', () => {
 				assert.instanceOf(renderErrorPage.defaultOptions.errorLoggingFilter, Function);
 				assert.isTrue(renderErrorPage.defaultOptions.errorLoggingFilter());
+			});
+		});
+
+		describe('.errorLoggingSerializer', () => {
+			it('is set to a function that returns the first input argument', () => {
+				assert.instanceOf(renderErrorPage.defaultOptions.errorLoggingSerializer, Function);
+				assert.strictEqual(renderErrorPage.defaultOptions.errorLoggingSerializer('mock-error'), 'mock-error');
 			});
 		});
 
