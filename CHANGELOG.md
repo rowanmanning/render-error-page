@@ -1,5 +1,18 @@
 # Changelog
 
+### [3.0.1](https://github.com/rowanmanning/render-error-page/compare/v3.0.0...v3.0.1) (2022-05-25)
+
+
+### Miscellaneous
+
+* bump @commitlint/cli from 16.2.4 to 17.0.0 ([c1cd573](https://github.com/rowanmanning/render-error-page/commit/c1cd57371d7eda9280a3c652415521f918d1110a))
+* bump @commitlint/cli from 17.0.0 to 17.0.1 ([d5e43f6](https://github.com/rowanmanning/render-error-page/commit/d5e43f6f63f25523b4a7549cf5f350d9bc2a149e))
+* bump @commitlint/config-conventional from 16.2.4 to 17.0.0 ([c3a3509](https://github.com/rowanmanning/render-error-page/commit/c3a3509008ea432ef533639b9cc7f5ad894c6cf5))
+* bump @rowanmanning/eslint-config from 3.4.0 to 3.5.0 ([f43e3a8](https://github.com/rowanmanning/render-error-page/commit/f43e3a8779dd61ff2103c65aa2778a5ca429c727))
+* bump eslint from 8.14.0 to 8.15.0 ([1188d77](https://github.com/rowanmanning/render-error-page/commit/1188d7737a5ed6de734dea8e03e50def26d87fe3))
+* bump eslint from 8.15.0 to 8.16.0 ([c3cb54b](https://github.com/rowanmanning/render-error-page/commit/c3cb54bbce315a19d2ec9ae81ccb2e4d1301fe94))
+* bump husky from 7.0.4 to 8.0.1 ([ddb880c](https://github.com/rowanmanning/render-error-page/commit/ddb880c70ac3eb4d51e22cecf63bebe6df7089a2))
+
 ## [3.0.0](https://github.com/rowanmanning/render-error-page/compare/v2.3.0...v3.0.0) (2022-05-02)
 
 
