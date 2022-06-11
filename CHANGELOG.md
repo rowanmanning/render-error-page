@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.1.0](https://github.com/rowanmanning/render-error-page/compare/v3.0.1...v3.1.0) (2022-06-11)
+
+
+### Features
+
+* ensure typescript types are always valid ([efcd987](https://github.com/rowanmanning/render-error-page/commit/efcd987a15616774bd87cbd73842e411b9324bfe))
+
+
+### Miscellaneous
+
+* bump @commitlint/cli from 17.0.1 to 17.0.2 ([3825377](https://github.com/rowanmanning/render-error-page/commit/3825377d43cda6a1054d388cfd5549264c3c4ab1))
+* bump @commitlint/config-conventional from 17.0.0 to 17.0.2 ([fabf2ce](https://github.com/rowanmanning/render-error-page/commit/fabf2ce0c337ecfbe215cd962de9b72bed702739))
+* bump @rowanmanning/eslint-config from 3.5.0 to 4.0.2 ([1e38980](https://github.com/rowanmanning/render-error-page/commit/1e3898098d3ea54b185629541a9aca3238770aac))
+* bump eslint from 8.16.0 to 8.17.0 ([0beb4b1](https://github.com/rowanmanning/render-error-page/commit/0beb4b118b2ca20eef8f414cfe511919fe06f552))
+* fix eslint issues ([49e6d4a](https://github.com/rowanmanning/render-error-page/commit/49e6d4aefb06be81cd26adc084d88336f7d90504))
+
 ### [3.0.1](https://github.com/rowanmanning/render-error-page/compare/v3.0.0...v3.0.1) (2022-05-25)
 
 
