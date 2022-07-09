@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/rowanmanning/render-error-page/compare/v3.1.0...v3.1.1) (2022-07-09)
+
+
+### Bug Fixes
+
+* hide the misc changelog section ([a2ce95e](https://github.com/rowanmanning/render-error-page/commit/a2ce95ed9bf45c26d01cd121ce960b15b3fa9000))
+
 ## [3.1.0](https://github.com/rowanmanning/render-error-page/compare/v3.0.1...v3.1.0) (2022-06-11)
 
 
