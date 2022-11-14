@@ -364,4 +364,10 @@ describe('lib/render-error-page', () => {
 
 	});
 
+	describe('.default', () => {
+		it('aliases the module exports', () => {
+			assert.strictEqual(renderErrorPage, renderErrorPage.default);
+		});
+	});
+
 });
