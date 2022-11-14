@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/rowanmanning/render-error-page/compare/v3.1.1...v3.1.2) (2022-11-14)
+
+
+### Bug Fixes
+
+* improve TypeScript compatibility ([4786cea](https://github.com/rowanmanning/render-error-page/commit/4786cea02f043525160845f1d531fc1147e422b9))
+
 ## [3.1.1](https://github.com/rowanmanning/render-error-page/compare/v3.1.0...v3.1.1) (2022-07-09)
 
 
