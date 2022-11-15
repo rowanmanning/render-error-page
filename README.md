@@ -8,6 +8,7 @@ Render nice error pages with [Express](https://expressjs.com).
 
   * [Requirements](#requirements)
   * [Usage](#usage)
+  * [Migration](#migration)
   * [Contributing](#contributing)
   * [License](#license)
 
@@ -61,7 +62,7 @@ Replace `.html` above with the correct file extension for your views. Once you'v
   * **`error.message`:** the actual error message
   * **`error.stack`:** the full error stack (if made available based on [options](#options))
 
-An example in Handlebars:
+An example in [Handlebars](https://handlebarsjs.com/):
 
 ```html
 <h1>Error {{error.statusCode}}</h1>
@@ -85,12 +86,14 @@ app.use(renderErrorPage({
 
 The available options are:
 
-  * **`defaultStatusCode`:** the HTTP status code to send if the error does not have a `statusCode` or `status` property. Defaults to `500`
-  * **`errorLogger`:** a function which can be used to log errors so that information is available in your server logs. This function should accept a two parameters: the error object and the Express Request object. Defaults to `console.error`
-  * **`errorLoggingFilter`:** a function which returns `true` or `false` when called with an error object. When `false` is returned, the given error will not be logged with `errorLogger`. Defaults to a function which always returns `true`
-  * **`errorLoggingSerializer`:** a function which returns a serialized version of the error when called with an error object, called before logging an error. Defaults to a function which always returns the unmodified error.
   * **`errorView`:** the name of the view to render when an error occurs, relative to the Express `views` directory. Defaults to `"error"`
+
   * **`includeErrorStack`:** a boolean indicating whether to include the error stack in the output. Defaults to `false` if the `NODE_ENV` environment variable is set to `"production"`, or `true` otherwise
+
+
+## Migration
+
+A new major version of this project is released if breaking changes are introduced. We maintain a [migration guide](docs/migration.md) to help users migrate between these versions.
 
 
 ## Contributing

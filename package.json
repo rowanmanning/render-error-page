@@ -36,6 +36,9 @@
   "peerDependencies": {
     "express": "^4.17.3"
   },
+  "dependencies": {
+    "@rowanmanning/get-error-http-status": "^1.0.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
