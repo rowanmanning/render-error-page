@@ -3,6 +3,7 @@
 const {assert} = require('chai');
 const td = require('testdouble');
 
+const {initMock: initHttpMock} = require('../mock/node/http.mock');
 const {initMock: initExpressMock} = require('../mock/npm/express.mock');
 const {initMock: initGetErrorHttpStatusMock} = require('../mock/npm/@rowanmanning/get-error-http-status.mock');
 
@@ -14,6 +15,7 @@ describe('lib/render-error-page', () => {
 	beforeEach(() => {
 		express = initExpressMock();
 		getErrorHttpStatus = td.replace('@rowanmanning/get-error-http-status', initGetErrorHttpStatusMock());
+		td.replace('http', initHttpMock());
 		renderErrorPage = require('../../../lib/render-error-page');
 	});
 
@@ -53,9 +55,13 @@ describe('lib/render-error-page', () => {
 			it('renders the expected error view with error details and a callback', () => {
 				td.verify(express.mockResponse.render('mock-error', {
 					error: {
-						statusCode: 456,
+						code: undefined,
 						message: 'mock error',
-						stack: error.stack
+						name: 'Error',
+						stack: error.stack,
+						status: 456,
+						statusCode: 456,
+						statusMessage: 'Mock Status Message'
 					}
 				}, td.matchers.isA(Function)), {times: 1});
 			});
@@ -106,6 +112,35 @@ describe('lib/render-error-page', () => {
 
 			});
 
+			describe('when the error has name and code properties', () => {
+
+				beforeEach(() => {
+					error = new TypeError('mock type error');
+					error.code = 'MOCK_CODE';
+					td.when(getErrorHttpStatus(error)).thenReturn(456);
+					middleware = renderErrorPage({
+						errorView: 'mock-error',
+						includeErrorStack: true
+					});
+					returnValue = middleware(error, express.mockRequest, express.mockResponse, express.mockNext);
+				});
+
+				it('renders the expected error view with the expected error details', () => {
+					td.verify(express.mockResponse.render('mock-error', {
+						error: {
+							code: 'MOCK_CODE',
+							message: 'mock type error',
+							name: 'TypeError',
+							stack: error.stack,
+							status: 456,
+							statusCode: 456,
+							statusMessage: 'Mock Status Message'
+						}
+					}, td.matchers.isA(Function)), {times: 1});
+				});
+
+			});
+
 			describe('when `options.errorView` is not set', () => {
 
 				beforeEach(() => {
@@ -138,9 +173,13 @@ describe('lib/render-error-page', () => {
 				it('renders the expected error view with error details and a callback, not including the error stack', () => {
 					td.verify(express.mockResponse.render('mock-error', {
 						error: {
-							statusCode: 456,
+							code: undefined,
 							message: 'mock error',
-							stack: null
+							name: 'Error',
+							stack: null,
+							status: 456,
+							statusCode: 456,
+							statusMessage: 'Mock Status Message'
 						}
 					}, td.matchers.isA(Function)), {times: 1});
 				});
@@ -176,6 +215,7 @@ describe('lib/render-error-page', () => {
 						process.env.NODE_ENV = 'development';
 						express = initExpressMock();
 						getErrorHttpStatus = td.replace('@rowanmanning/get-error-http-status', initGetErrorHttpStatusMock());
+						td.replace('http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
 						renderErrorPage = require('../../../lib/render-error-page');
 
@@ -188,9 +228,13 @@ describe('lib/render-error-page', () => {
 					it('renders the expected error view with error details and a callback', () => {
 						td.verify(express.mockResponse.render('mock-error', {
 							error: {
-								statusCode: 456,
+								code: undefined,
 								message: 'mock error',
-								stack: error.stack
+								name: 'Error',
+								stack: error.stack,
+								status: 456,
+								statusCode: 456,
+								statusMessage: 'Mock Status Message'
 							}
 						}, td.matchers.isA(Function)), {times: 1});
 					});
@@ -223,6 +267,7 @@ describe('lib/render-error-page', () => {
 						process.env.NODE_ENV = 'production';
 						express = initExpressMock();
 						getErrorHttpStatus = td.replace('@rowanmanning/get-error-http-status', initGetErrorHttpStatusMock());
+						td.replace('http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
 						renderErrorPage = require('../../../lib/render-error-page');
 
@@ -235,9 +280,13 @@ describe('lib/render-error-page', () => {
 					it('renders the expected error view with error details and a callback, not including the error stack', () => {
 						td.verify(express.mockResponse.render('mock-error', {
 							error: {
-								statusCode: 456,
+								code: undefined,
 								message: 'mock error',
-								stack: null
+								name: 'Error',
+								stack: null,
+								status: 456,
+								statusCode: 456,
+								statusMessage: 'Mock Status Message'
 							}
 						}, td.matchers.isA(Function)), {times: 1});
 					});

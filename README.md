@@ -58,9 +58,19 @@ views/error.html
 
 Replace `.html` above with the correct file extension for your views. Once you've done this, you can access the following view data:
 
-  * **`error.statusCode`:** the HTTP status code of the error (taken from the original error's `statusCode` or `status` properties)
+  * **`error.code`:** the value of the `code` property of the error, if present
+
   * **`error.message`:** the actual error message
+
+  * **`error.name`:** the value of the `name` property of the error, e.g. `Error` or `TypeError`
+
   * **`error.stack`:** the full error stack (if made available based on [options](#options))
+
+  * **`error.status`:** the HTTP status code of the error (taken from the original error's `statusCode` or `status` properties)
+
+  * **`error.statusCode`:** alias of `error.status`
+
+  * **`error.statusMessage`:** the HTTP status message which corresponds to `error.status`, e.g. an error status of `404` would result in `Not Found`
 
 An example in [Handlebars](https://handlebarsjs.com/):
 
