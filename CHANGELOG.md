@@ -1,5 +1,22 @@
 # Changelog
 
+## [4.0.0](https://github.com/rowanmanning/render-error-page/compare/v3.1.2...v4.0.0) (2022-11-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* simplify the library, removing options
+
+### Features
+
+* supply more error information to the view ([a2f1473](https://github.com/rowanmanning/render-error-page/commit/a2f1473856bc49a632aa3962b22c054cbd127117))
+* terminate the request if headers are sent ([6b4a9bd](https://github.com/rowanmanning/render-error-page/commit/6b4a9bddd48b70df5eab111e963df2f88367bb81))
+
+
+### Miscellaneous
+
+* simplify the library, removing options ([6e2f1c3](https://github.com/rowanmanning/render-error-page/commit/6e2f1c39783210aeed66f8065034f9288ad2d6aa))
+
 ## [3.1.2](https://github.com/rowanmanning/render-error-page/compare/v3.1.1...v3.1.2) (2022-11-14)
 
 
