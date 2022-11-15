@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/rowanmanning/render-error-page/compare/v4.0.0...v4.1.0) (2022-11-15)
+
+
+### Features
+
+* add Express v5 beta support ([3c1bda5](https://github.com/rowanmanning/render-error-page/commit/3c1bda5101338246d69332b625cd5a78d80bf68e))
+
 ## [4.0.0](https://github.com/rowanmanning/render-error-page/compare/v3.1.2...v4.0.0) (2022-11-15)
 
 
