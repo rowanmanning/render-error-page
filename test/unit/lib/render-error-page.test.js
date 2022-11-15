@@ -112,6 +112,31 @@ describe('lib/render-error-page', () => {
 
 			});
 
+			describe('when response headers have already been sent', () => {
+
+				beforeEach(() => {
+					express = initExpressMock();
+					express.mockResponse.headersSent = true;
+					returnValue = middleware(error, express.mockRequest, express.mockResponse, express.mockNext);
+				});
+
+				it('calls next with the error', () => {
+					td.verify(express.mockNext(error), {times: 1});
+				});
+
+				it('does not set a status code or respond', () => {
+					td.verify(express.mockResponse.status(), {
+						ignoreExtraArgs: true,
+						times: 0
+					});
+					td.verify(express.mockResponse.send(), {
+						ignoreExtraArgs: true,
+						times: 0
+					});
+				});
+
+			});
+
 			describe('when the error has name and code properties', () => {
 
 				beforeEach(() => {
