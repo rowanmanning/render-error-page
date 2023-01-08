@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1](https://github.com/rowanmanning/render-error-page/compare/v4.1.0...v4.1.1) (2023-01-08)
+
+
+### Bug Fixes
+
+* bump json5 from 2.2.1 to 2.2.3 ([d2d89c7](https://github.com/rowanmanning/render-error-page/commit/d2d89c7e2041c683d314684cf34a21debd954ddd))
+
 ## [4.1.0](https://github.com/rowanmanning/render-error-page/compare/v4.0.0...v4.1.0) (2022-11-15)
 
 
