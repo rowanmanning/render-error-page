@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.1.3](https://github.com/rowanmanning/render-error-page/compare/v4.1.2...v4.1.3) (2023-02-14)
+
+
+### Bug Fixes
+
+* bump @rowanmanning/get-error-http-status from 1.0.1 to 1.0.2 ([c87d42c](https://github.com/rowanmanning/render-error-page/commit/c87d42c0ea0feaa901277b2e416df244cd1a6c5f))
+* support npm v9 ([3d87f44](https://github.com/rowanmanning/render-error-page/commit/3d87f44dfbbc62a2165666cdf9aa69ea71788500))
+
 ## [4.1.2](https://github.com/rowanmanning/render-error-page/compare/v4.1.1...v4.1.2) (2023-01-11)
 
 
