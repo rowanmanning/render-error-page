@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.0.0](https://github.com/rowanmanning/render-error-page/compare/v4.1.3...v5.0.0) (2023-03-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop official support for npm v7
+* drop support for Node.js 14
+
+### Miscellaneous
+
+* drop official support for npm v7 ([15828d4](https://github.com/rowanmanning/render-error-page/commit/15828d4eae15939c5232fd4915c2db61a7e58d20))
+* drop support for Node.js 14 ([16e95ad](https://github.com/rowanmanning/render-error-page/commit/16e95ad439e1f94c55062b3d82c5c28a10f6d0d1))
+
 ## [4.1.3](https://github.com/rowanmanning/render-error-page/compare/v4.1.2...v4.1.3) (2023-02-14)
 
 
