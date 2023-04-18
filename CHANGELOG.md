@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.2](https://github.com/rowanmanning/render-error-page/compare/v5.0.1...v5.0.2) (2023-04-18)
+
+
+### Bug Fixes
+
+* add support for Node.js 20 ([f57a0a6](https://github.com/rowanmanning/render-error-page/commit/f57a0a6e4bb86be73d3b84cb1ac9d96c5bf6a9ee))
+
 ## [5.0.1](https://github.com/rowanmanning/render-error-page/compare/v5.0.0...v5.0.1) (2023-04-18)
 
 
