@@ -1,6 +1,6 @@
 'use strict';
 
-const {assert} = require('chai');
+const assert = require('node:assert');
 const createTestApp = require('./fixture/create-test-app');
 
 describe('Express 5', () => {

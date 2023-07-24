@@ -1,6 +1,6 @@
 'use strict';
 
-const {assert} = require('chai');
+const assert = require('node:assert');
 const td = require('testdouble');
 
 const {initMock: initHttpMock} = require('../mock/node/http.mock');
@@ -31,7 +31,7 @@ describe('lib/render-error-page', () => {
 		});
 
 		it('returns a middleware function', () => {
-			assert.isFunction(middleware);
+			assert.strictEqual(typeof middleware, 'function');
 		});
 
 		describe('middleware(error, request, response, next)', () => {
@@ -78,7 +78,7 @@ describe('lib/render-error-page', () => {
 			});
 
 			it('returns nothing', () => {
-				assert.isUndefined(returnValue);
+				assert.strictEqual(returnValue, undefined);
 			});
 
 			describe('when `response.render` calls back with an error', () => {
@@ -107,7 +107,7 @@ describe('lib/render-error-page', () => {
 				});
 
 				it('returns nothing', () => {
-					assert.isUndefined(returnValue);
+					assert.strictEqual(returnValue, undefined);
 				});
 
 			});
