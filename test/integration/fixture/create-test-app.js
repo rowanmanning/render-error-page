@@ -2,7 +2,7 @@
 
 const createHttpError = require('http-errors');
 const httpRequest = require('axios');
-const path = require('path');
+const path = require('node:path');
 const renderErrorPage = require('../../../lib/render-error-page');
 
 module.exports = async function createTestApp(expressModule) {

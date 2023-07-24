@@ -15,7 +15,7 @@ describe('lib/render-error-page', () => {
 	beforeEach(() => {
 		express = initExpressMock();
 		getErrorHttpStatus = td.replace('@rowanmanning/get-error-http-status', initGetErrorHttpStatusMock());
-		td.replace('http', initHttpMock());
+		td.replace('node:http', initHttpMock());
 		renderErrorPage = require('../../../lib/render-error-page');
 	});
 
@@ -240,7 +240,7 @@ describe('lib/render-error-page', () => {
 						process.env.NODE_ENV = 'development';
 						express = initExpressMock();
 						getErrorHttpStatus = td.replace('@rowanmanning/get-error-http-status', initGetErrorHttpStatusMock());
-						td.replace('http', initHttpMock());
+						td.replace('node:http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
 						renderErrorPage = require('../../../lib/render-error-page');
 
@@ -292,7 +292,7 @@ describe('lib/render-error-page', () => {
 						process.env.NODE_ENV = 'production';
 						express = initExpressMock();
 						getErrorHttpStatus = td.replace('@rowanmanning/get-error-http-status', initGetErrorHttpStatusMock());
-						td.replace('http', initHttpMock());
+						td.replace('node:http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
 						renderErrorPage = require('../../../lib/render-error-page');
 
