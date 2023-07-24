@@ -1,9 +1,9 @@
 'use strict';
 
-const createHttpError = require('http-errors');
 const httpRequest = require('axios');
 const path = require('node:path');
 const renderErrorPage = require('../../../lib/render-error-page');
+const {STATUS_CODES} = require('node:http');
 
 module.exports = async function createTestApp(expressModule) {
 	const express = require(expressModule);
@@ -16,7 +16,7 @@ module.exports = async function createTestApp(expressModule) {
 	// Add a route to generate errors
 	app.get(/^\/(\d+)$/, (request, response, next) => {
 		const status = parseInt(request.params[0], 10);
-		next(createHttpError(status));
+		next(Object.assign(new Error(STATUS_CODES[status]), {status}));
 	});
 
 	// Add an error handler
