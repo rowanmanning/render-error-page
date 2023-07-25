@@ -1,5 +1,52 @@
 # Changelog
 
+## 5.0.5 (2023-07-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop official support for npm v7
+* drop support for Node.js 14
+* simplify the library, removing options
+* drop support for Node.js versions below 14
+* mocha no longer supports Node.js v12
+
+### Features
+
+* add Express v5 beta support ([3c1bda5](https://github.com/rowanmanning/render-error-page/commit/3c1bda5101338246d69332b625cd5a78d80bf68e))
+* ensure typescript types are always valid ([efcd987](https://github.com/rowanmanning/render-error-page/commit/efcd987a15616774bd87cbd73842e411b9324bfe))
+* supply more error information to the view ([a2f1473](https://github.com/rowanmanning/render-error-page/commit/a2f1473856bc49a632aa3962b22c054cbd127117))
+* terminate the request if headers are sent ([6b4a9bd](https://github.com/rowanmanning/render-error-page/commit/6b4a9bddd48b70df5eab111e963df2f88367bb81))
+
+
+### Bug Fixes
+
+* add support for Node.js 20 ([f57a0a6](https://github.com/rowanmanning/render-error-page/commit/f57a0a6e4bb86be73d3b84cb1ac9d96c5bf6a9ee))
+* bump @rowanmanning/get-error-http-status from 1.0.0 to 1.0.1 ([4830dda](https://github.com/rowanmanning/render-error-page/commit/4830dda62edcd5c2f59d0efef375263390b4add2))
+* bump @rowanmanning/get-error-http-status from 1.0.1 to 1.0.2 ([c87d42c](https://github.com/rowanmanning/render-error-page/commit/c87d42c0ea0feaa901277b2e416df244cd1a6c5f))
+* bump @rowanmanning/get-error-http-status from 1.0.2 to 2.0.0 ([1ef59bc](https://github.com/rowanmanning/render-error-page/commit/1ef59bcf42596fab3ac11eee9b652b3bfd2705f2))
+* bump @rowanmanning/get-error-http-status from 2.0.0 to 2.0.1 ([7d118ef](https://github.com/rowanmanning/render-error-page/commit/7d118ef182edfbd0109f5314b20e52c82e4b8a86))
+* bump json5 from 2.2.1 to 2.2.3 ([d2d89c7](https://github.com/rowanmanning/render-error-page/commit/d2d89c7e2041c683d314684cf34a21debd954ddd))
+* hide the misc changelog section ([a2ce95e](https://github.com/rowanmanning/render-error-page/commit/a2ce95ed9bf45c26d01cd121ce960b15b3fa9000))
+* improve TypeScript compatibility ([4786cea](https://github.com/rowanmanning/render-error-page/commit/4786cea02f043525160845f1d531fc1147e422b9))
+* sort out broken releases ([21fa77e](https://github.com/rowanmanning/render-error-page/commit/21fa77ed4817bc4335319fb75a753691060ec3a0))
+* support npm v9 ([3d87f44](https://github.com/rowanmanning/render-error-page/commit/3d87f44dfbbc62a2165666cdf9aa69ea71788500))
+* use node-prefixed modules ([5ea2d5d](https://github.com/rowanmanning/render-error-page/commit/5ea2d5d9fb6d7f41bc3934a8bbd568ae31024134))
+
+
+### Documentation Changes
+
+* manually define changelog sections ([ada55e8](https://github.com/rowanmanning/render-error-page/commit/ada55e801f3713add3cdff9cefd69cc68812164a))
+
+
+### Miscellaneous
+
+* bump mocha from 9.2.2 to 10.0.0 ([160ff94](https://github.com/rowanmanning/render-error-page/commit/160ff943ae03a35533ce8ffa2c7ccca4c780a300))
+* drop official support for npm v7 ([15828d4](https://github.com/rowanmanning/render-error-page/commit/15828d4eae15939c5232fd4915c2db61a7e58d20))
+* drop support for Node.js 14 ([16e95ad](https://github.com/rowanmanning/render-error-page/commit/16e95ad439e1f94c55062b3d82c5c28a10f6d0d1))
+* drop support for Node.js versions below 14 ([4afddad](https://github.com/rowanmanning/render-error-page/commit/4afddadbc4ac37670a4a97a5afa98b69e4e2898c))
+* simplify the library, removing options ([6e2f1c3](https://github.com/rowanmanning/render-error-page/commit/6e2f1c39783210aeed66f8065034f9288ad2d6aa))
+
 ## [5.0.3](https://github.com/rowanmanning/render-error-page/compare/v5.0.2...v5.0.3) (2023-04-26)
 
 
