@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.0.0](https://github.com/rowanmanning/render-error-page/compare/v5.0.5...v6.0.0) (2023-09-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Node.js 16
+
+### Miscellaneous
+
+* drop support for Node.js 16 ([249c451](https://github.com/rowanmanning/render-error-page/commit/249c451bc6227ea03850582fc915b556591afccf))
+
 ## 5.0.5 (2023-07-25)
 
 
