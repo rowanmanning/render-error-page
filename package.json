@@ -37,7 +37,7 @@
     "express": "^4.17.3 || ^5.0.0-beta"
   },
   "dependencies": {
-    "@rowanmanning/get-error-http-status": "^2.0.0"
+    "@rowanmanning/get-error-http-status": "^3.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.2",
