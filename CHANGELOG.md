@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.1](https://github.com/rowanmanning/render-error-page/compare/v6.0.0...v6.0.1) (2023-11-22)
+
+
+### Bug Fixes
+
+* bump @rowanmanning/get-error-http-status from 2.0.1 to 3.0.0 ([4826694](https://github.com/rowanmanning/render-error-page/commit/4826694a38483fd91ecc6bac0b7a11100e447150))
+
 ## [6.0.0](https://github.com/rowanmanning/render-error-page/compare/v5.0.5...v6.0.0) (2023-09-11)
 
 
