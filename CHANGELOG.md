@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.1.0](https://github.com/rowanmanning/render-error-page/compare/v6.0.2...v6.1.0) (2024-01-29)
+
+
+### Features
+
+* add official support for npm 10 ([f0d6dda](https://github.com/rowanmanning/render-error-page/commit/f0d6dda911596ab74b4daac7997aec73a04a5df8))
+
 ## [6.0.2](https://github.com/rowanmanning/render-error-page/compare/v6.0.1...v6.0.2) (2024-01-17)
 
 
