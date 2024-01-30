@@ -31,7 +31,7 @@
     "test:integration": "mocha 'test/integration/**/*.test.js'",
     "project:verify": "npx --yes @rowanmanning/validate-project@3 --type git node-library",
     "project:fix": "npx --yes @rowanmanning/validate-project@3 --type git node-library --fix",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "peerDependencies": {
     "express": "^4.17.3 || ^5.0.0-beta"
@@ -49,7 +49,7 @@
     "express4": "npm:express@^4.17.3",
     "express5": "npm:express@^5.0.0-beta.1",
     "hbs": "^4.2.0",
-    "husky": "^8.0.1",
+    "husky": "^9.0.7",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "testdouble": "^3.16.4",
