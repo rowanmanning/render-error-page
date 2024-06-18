@@ -3,7 +3,7 @@
 const httpRequest = require('axios');
 const path = require('node:path');
 const renderErrorPage = require('../../../lib/render-error-page');
-const {STATUS_CODES} = require('node:http');
+const { STATUS_CODES } = require('node:http');
 
 module.exports = async function createTestApp(expressModule) {
 	const express = require(expressModule);
@@ -14,15 +14,17 @@ module.exports = async function createTestApp(expressModule) {
 	app.set('views', path.join(__dirname, 'view'));
 
 	// Add a route to generate errors
-	app.get(/^\/(\d+)$/, (request, response, next) => {
-		const status = parseInt(request.params[0], 10);
-		next(Object.assign(new Error(STATUS_CODES[status]), {status}));
+	app.get(/^\/(\d+)$/, (request, _response, next) => {
+		const status = Number.parseInt(request.params[0], 10);
+		next(Object.assign(new Error(STATUS_CODES[status]), { status }));
 	});
 
 	// Add an error handler
-	app.use(renderErrorPage({
-		errorLoggingFilter: () => false
-	}));
+	app.use(
+		renderErrorPage({
+			errorLoggingFilter: () => false
+		})
+	);
 
 	// Start the server and get the application address
 	const server = await start(app);
@@ -69,7 +71,7 @@ module.exports = async function createTestApp(expressModule) {
  */
 function start(app) {
 	return new Promise((resolve, reject) => {
-		const server = app.listen(undefined, error => {
+		const server = app.listen(undefined, (error) => {
 			if (error) {
 				return reject(error);
 			}

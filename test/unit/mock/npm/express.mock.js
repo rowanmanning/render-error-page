@@ -15,10 +15,9 @@ exports.initMock = () => {
 
 	// Note this has to be non-async for the purposes of
 	// testing because of the way Express works
-	td.when(express.mockResponse.render(
-		td.matchers.anything(),
-		td.matchers.anything()
-	)).thenCallback(null, 'mock html');
+	td.when(
+		express.mockResponse.render(td.matchers.anything(), td.matchers.anything())
+	).thenCallback(null, 'mock html');
 
 	return express;
 };

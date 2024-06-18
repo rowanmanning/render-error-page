@@ -26,13 +26,8 @@ describe('Express 5', () => {
 		});
 
 		it('responds with the rendered view', () => {
-			assert.strictEqual(response.data, [
-				'STATUS: 404',
-				'MESSAGE: Not Found',
-				''
-			].join('\n'));
+			assert.strictEqual(response.data, ['STATUS: 404', 'MESSAGE: Not Found', ''].join('\n'));
 		});
-
 	});
 
 	describe('GET /500', () => {
@@ -47,13 +42,10 @@ describe('Express 5', () => {
 		});
 
 		it('responds with the rendered view', () => {
-			assert.strictEqual(response.data, [
-				'STATUS: 500',
-				'MESSAGE: Internal Server Error',
-				''
-			].join('\n'));
+			assert.strictEqual(
+				response.data,
+				['STATUS: 500', 'MESSAGE: Internal Server Error', ''].join('\n')
+			);
 		});
-
 	});
-
 });
