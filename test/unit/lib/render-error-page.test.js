@@ -1,5 +1,6 @@
 'use strict';
 
+const { afterEach, beforeEach, describe, it } = require('node:test');
 const assert = require('node:assert');
 const td = require('testdouble');
 
@@ -8,6 +9,8 @@ const { initMock: initExpressMock } = require('../mock/npm/express.mock');
 const {
 	initMock: initGetErrorHttpStatusMock
 } = require('../mock/npm/@rowanmanning/get-error-http-status.mock');
+
+td.config({ ignoreWarnings: true });
 
 describe('lib/render-error-page', () => {
 	let express;
@@ -23,6 +26,8 @@ describe('lib/render-error-page', () => {
 		td.replace('node:http', initHttpMock());
 		renderErrorPage = require('../../../lib/render-error-page');
 	});
+
+	afterEach(() => td.reset());
 
 	describe('renderErrorPage(options)', () => {
 		let middleware;
