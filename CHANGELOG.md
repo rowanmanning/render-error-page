@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.2.0](https://github.com/rowanmanning/render-error-page/compare/v6.1.0...v6.2.0) (2024-06-23)
+
+
+### Features
+
+* add Node.js 22 support ([6c547c6](https://github.com/rowanmanning/render-error-page/commit/6c547c67037b37492795866a921e861618a0b588))
+
 ## [6.1.0](https://github.com/rowanmanning/render-error-page/compare/v6.0.2...v6.1.0) (2024-01-30)
 
 
