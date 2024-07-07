@@ -27,7 +27,7 @@ describe('Express 4', () => {
 		});
 
 		it('responds with the rendered view', () => {
-			assert.strictEqual(response.data, ['STATUS: 404', 'MESSAGE: Not Found', ''].join('\n'));
+			assert.strictEqual(response.body, 'STATUS: 404\nMESSAGE: Not Found\n');
 		});
 	});
 
@@ -43,10 +43,7 @@ describe('Express 4', () => {
 		});
 
 		it('responds with the rendered view', () => {
-			assert.strictEqual(
-				response.data,
-				['STATUS: 500', 'MESSAGE: Internal Server Error', ''].join('\n')
-			);
+			assert.strictEqual(response.body, 'STATUS: 500\nMESSAGE: Internal Server Error\n');
 		});
 	});
 });

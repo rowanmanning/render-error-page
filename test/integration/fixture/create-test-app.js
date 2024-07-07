@@ -1,6 +1,5 @@
 'use strict';
 
-const httpRequest = require('axios');
 const path = require('node:path');
 const renderErrorPage = require('../../../lib/render-error-page');
 const { STATUS_CODES } = require('node:http');
@@ -42,16 +41,15 @@ module.exports = async function createTestApp(expressModule) {
 	 *
 	 * @param {string} requestPath
 	 *     The path to make a request to.
-	 * @returns {httpRequest.AxiosResponse}
-	 *     Returns an HTTP response object.
+	 * @returns {Promise<{status: number, body: string}>}
+	 *     Returns HTTP response details.
 	 */
-	function get(requestPath) {
-		return httpRequest({
-			url: `${address}${requestPath}`,
-			validateStatus() {
-				return true;
-			}
-		});
+	async function get(requestPath) {
+		const response = await fetch(new URL(requestPath, address));
+		return {
+			status: response.status,
+			body: await response.text()
+		};
 	}
 
 	// Return the two methods that we need
