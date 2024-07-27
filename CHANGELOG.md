@@ -1,5 +1,14 @@
 # Changelog
 
+## [6.2.2](https://github.com/rowanmanning/render-error-page/compare/v6.2.1...v6.2.2) (2024-07-27)
+
+
+### Bug Fixes
+
+* bump @rowanmanning/get-error-http-status from 3.2.0 to 3.2.1 ([3ced2e1](https://github.com/rowanmanning/render-error-page/commit/3ced2e1ba5bc54a106cf2ccc0fa5672d9010ed7c))
+* bump @rowanmanning/get-error-http-status from 3.2.1 to 3.2.2 ([2644cd5](https://github.com/rowanmanning/render-error-page/commit/2644cd516d77b7c017b17c465280c8707f937c1b))
+* prevent husky from failing ([25dd9fe](https://github.com/rowanmanning/render-error-page/commit/25dd9fe6aab716ba6bd1758a54af943541999a63))
+
 ## [6.2.1](https://github.com/rowanmanning/render-error-page/compare/v6.2.0...v6.2.1) (2024-07-06)
 
 
