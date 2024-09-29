@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.2.4](https://github.com/rowanmanning/render-error-page/compare/v6.2.3...v6.2.4) (2024-09-29)
+
+
+### Bug Fixes
+
+* bump send, express and serve-static ([c32c8c6](https://github.com/rowanmanning/render-error-page/commit/c32c8c6f89b4e30250f1f3ab89aa9cf8e8c57afc))
+
 ## [6.2.3](https://github.com/rowanmanning/render-error-page/compare/v6.2.2...v6.2.3) (2024-09-01)
 
 
