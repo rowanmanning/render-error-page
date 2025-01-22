@@ -1,5 +1,14 @@
 # Changelog
 
+## [6.2.4](https://github.com/rowanmanning/render-error-page/compare/v6.2.3...v6.2.4) (2025-01-22)
+
+
+### Bug Fixes
+
+* bump cookie and express ([a37c8a2](https://github.com/rowanmanning/render-error-page/commit/a37c8a2b5f5df09d4a36b9fafeb144db0ab30ea2))
+* bump path-to-regexp, express and router ([d044dd4](https://github.com/rowanmanning/render-error-page/commit/d044dd482d754a8f1b7b1f1e38705224ca3f890e))
+* bump send, express and serve-static ([c32c8c6](https://github.com/rowanmanning/render-error-page/commit/c32c8c6f89b4e30250f1f3ab89aa9cf8e8c57afc))
+
 ## [6.2.3](https://github.com/rowanmanning/render-error-page/compare/v6.2.2...v6.2.3) (2024-09-01)
 
 
