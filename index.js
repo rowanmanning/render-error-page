@@ -14,7 +14,7 @@ const { STATUS_CODES } = require('node:http');
  */
 
 /**
- * @type {Options}
+ * @type {Required<Options>}
  */
 const defaultOptions = {
 	errorView: 'error',
@@ -27,11 +27,12 @@ const defaultOptions = {
  * @public
  * @param {Options} [options]
  *     An options object used to configure the returned middleware.
- * @returns {import('express').Handler}
+ * @returns {import('express').ErrorRequestHandler}
  *     Returns a middleware function.
  */
 function renderErrorPage(options) {
 	const { errorView, includeErrorStack } = Object.assign({}, defaultOptions, options);
+	/** @type {import('express').ErrorRequestHandler} */
 	return function renderErrorPageMiddleware(error, _request, response, next) {
 		// If headers have been sent, offload onto the default error handler
 		// which can terminate the request
@@ -75,6 +76,14 @@ function renderErrorPage(options) {
  * @private
  * @param {object} renderContext
  *     The render context containing error details.
+ * @param {object} renderContext.error
+ *     The error.
+ * @param {string} renderContext.error.message
+ *     The error message.
+ * @param {string} renderContext.error.stack
+ *     The error stack.
+ * @param {number} renderContext.error.statusCode
+ *     The error status code
  * @param {Error} renderError
  *     The error that occurred during rendering.
  * @returns {string}
@@ -91,5 +100,6 @@ function renderFallbackPage(renderContext, renderError) {
 	`.replace(/\t/g, '');
 }
 
+/** @type {renderErrorPage} */
 module.exports = renderErrorPage;
 module.exports.default = module.exports;
