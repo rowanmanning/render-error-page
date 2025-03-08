@@ -3,14 +3,12 @@
 
 Render nice error pages with [Express](https://expressjs.com).
 
-
-## Table of Contents
-
-  * [Requirements](#requirements)
-  * [Usage](#usage)
-  * [Migration](#migration)
-  * [Contributing](#contributing)
-  * [License](#license)
+* [Requirements](#requirements)
+* [Usage](#usage)
+  * [Options](#options)
+* [Migration](#migration)
+* [Contributing](#contributing)
+* [License](#license)
 
 
 ## Requirements
