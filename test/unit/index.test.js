@@ -24,7 +24,7 @@ describe('render-error-page', () => {
 			initGetErrorHttpStatusMock()
 		);
 		td.replace('node:http', initHttpMock());
-		renderErrorPage = require('../..');
+		renderErrorPage = require('../..').renderErrorPage;
 	});
 
 	afterEach(() => td.reset());
@@ -316,7 +316,7 @@ describe('render-error-page', () => {
 						);
 						td.replace('node:http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
-						renderErrorPage = require('../..');
+						renderErrorPage = require('../..').renderErrorPage;
 
 						middleware = renderErrorPage({
 							errorView: 'mock-error'
@@ -389,7 +389,7 @@ describe('render-error-page', () => {
 						);
 						td.replace('node:http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
-						renderErrorPage = require('../..');
+						renderErrorPage = require('../..').renderErrorPage;
 
 						middleware = renderErrorPage({
 							errorView: 'mock-error'
@@ -454,12 +454,6 @@ describe('render-error-page', () => {
 					});
 				});
 			});
-		});
-	});
-
-	describe('.default', () => {
-		it('aliases the module exports', () => {
-			assert.strictEqual(renderErrorPage, renderErrorPage.default);
 		});
 	});
 });

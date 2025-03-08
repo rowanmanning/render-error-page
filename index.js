@@ -30,7 +30,7 @@ const defaultOptions = {
  * @returns {import('express').ErrorRequestHandler}
  *     Returns a middleware function.
  */
-function renderErrorPage(options) {
+exports.renderErrorPage = function renderErrorPage(options) {
 	const { errorView, includeErrorStack } = Object.assign({}, defaultOptions, options);
 	/** @type {import('express').ErrorRequestHandler} */
 	return function renderErrorPageMiddleware(error, _request, response, next) {
@@ -68,7 +68,7 @@ function renderErrorPage(options) {
 			response.send(html);
 		});
 	};
-}
+};
 
 /**
  * Render a fallback page.
@@ -99,7 +99,3 @@ function renderFallbackPage(renderContext, renderError) {
 		${renderContext.error.stack ? `<pre>${renderError.stack}</pre>` : ''}
 	`.replace(/\t/g, '');
 }
-
-/** @type {renderErrorPage} */
-module.exports = renderErrorPage;
-module.exports.default = module.exports;

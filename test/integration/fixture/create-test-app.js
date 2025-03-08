@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('node:path');
-const renderErrorPage = require('../../..');
+const { renderErrorPage } = require('../../..');
 const { STATUS_CODES } = require('node:http');
 
 module.exports = async function createTestApp(expressModule) {

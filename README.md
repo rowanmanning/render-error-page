@@ -29,14 +29,14 @@ npm install @rowanmanning/render-error-page
 Load the library into your code with a `require` call:
 
 ```js
-const renderErrorPage = require('@rowanmanning/render-error-page');
+const { renderErrorPage } = require('@rowanmanning/render-error-page');
 ```
 
 Create the error rendering middleware and add it as the very last one to your Express app (more details available in [this Express guide](https://expressjs.com/en/guide/error-handling.html)):
 
 ```js
 const express = require('express');
-const renderErrorPage = require('@rowanmanning/render-error-page');
+const { renderErrorPage } = require('@rowanmanning/render-error-page');
 
 const app = express();
 
