@@ -1,5 +1,27 @@
 # Changelog
 
+## [7.0.0](https://github.com/rowanmanning/render-error-page/compare/v6.2.4...v7.0.0) (2025-03-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* move to named exports
+* drop Node.js 18
+
+### Bug Fixes
+
+* bump @rowanmanning/get-error-http-status from 3.2.2 to 4.1.1 ([d2d1108](https://github.com/rowanmanning/render-error-page/commit/d2d11087ae70ff570e16942e3ab9fa0b8fcdf693))
+
+
+### Miscellaneous Chores
+
+* drop Node.js 18 ([16cd29c](https://github.com/rowanmanning/render-error-page/commit/16cd29c1ec4918ed3d6838e90b584ab7c50a533b))
+
+
+### Code Refactoring
+
+* move to named exports ([2370986](https://github.com/rowanmanning/render-error-page/commit/237098636b7e65cedb3db29ca4bddfe74d3a2b24))
+
 ## [6.2.4](https://github.com/rowanmanning/render-error-page/compare/v6.2.3...v6.2.4) (2025-01-22)
 
 
