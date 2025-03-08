@@ -4,15 +4,15 @@ const { afterEach, beforeEach, describe, it } = require('node:test');
 const assert = require('node:assert');
 const td = require('testdouble');
 
-const { initMock: initHttpMock } = require('../mock/node/http.mock');
-const { initMock: initExpressMock } = require('../mock/npm/express.mock');
+const { initMock: initHttpMock } = require('./mock/node/http.mock');
+const { initMock: initExpressMock } = require('./mock/npm/express.mock');
 const {
 	initMock: initGetErrorHttpStatusMock
-} = require('../mock/npm/@rowanmanning/get-error-http-status.mock');
+} = require('./mock/npm/@rowanmanning/get-error-http-status.mock');
 
 td.config({ ignoreWarnings: true });
 
-describe('lib/render-error-page', () => {
+describe('render-error-page', () => {
 	let express;
 	let getErrorHttpStatus;
 	let renderErrorPage;
@@ -24,7 +24,7 @@ describe('lib/render-error-page', () => {
 			initGetErrorHttpStatusMock()
 		);
 		td.replace('node:http', initHttpMock());
-		renderErrorPage = require('../../../lib/render-error-page');
+		renderErrorPage = require('../..');
 	});
 
 	afterEach(() => td.reset());
@@ -316,7 +316,7 @@ describe('lib/render-error-page', () => {
 						);
 						td.replace('node:http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
-						renderErrorPage = require('../../../lib/render-error-page');
+						renderErrorPage = require('../..');
 
 						middleware = renderErrorPage({
 							errorView: 'mock-error'
@@ -389,7 +389,7 @@ describe('lib/render-error-page', () => {
 						);
 						td.replace('node:http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
-						renderErrorPage = require('../../../lib/render-error-page');
+						renderErrorPage = require('../..');
 
 						middleware = renderErrorPage({
 							errorView: 'mock-error'
