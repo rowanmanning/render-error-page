@@ -22,7 +22,7 @@ describe('render-error-page', () => {
 		getErrorHttpStatus = td.replace(
 			'@rowanmanning/get-error-http-status',
 			initGetErrorHttpStatusMock()
-		);
+		).getErrorHttpStatus;
 		td.replace('node:http', initHttpMock());
 		renderErrorPage = require('../..').renderErrorPage;
 	});
@@ -313,7 +313,7 @@ describe('render-error-page', () => {
 						getErrorHttpStatus = td.replace(
 							'@rowanmanning/get-error-http-status',
 							initGetErrorHttpStatusMock()
-						);
+						).getErrorHttpStatus;
 						td.replace('node:http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
 						renderErrorPage = require('../..').renderErrorPage;
@@ -386,7 +386,7 @@ describe('render-error-page', () => {
 						getErrorHttpStatus = td.replace(
 							'@rowanmanning/get-error-http-status',
 							initGetErrorHttpStatusMock()
-						);
+						).getErrorHttpStatus;
 						td.replace('node:http', initHttpMock());
 						td.when(getErrorHttpStatus(error)).thenReturn(456);
 						renderErrorPage = require('../..').renderErrorPage;

@@ -1,6 +1,6 @@
 'use strict';
 
-const getErrorHttpStatus = require('@rowanmanning/get-error-http-status');
+const { getErrorHttpStatus } = require('@rowanmanning/get-error-http-status');
 const { STATUS_CODES } = require('node:http');
 
 /**
