@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.0](https://github.com/rowanmanning/render-error-page/compare/v7.0.1...v7.1.0) (2025-05-21)
+
+
+### Features
+
+* add Node.js 24 support ([2f293f0](https://github.com/rowanmanning/render-error-page/commit/2f293f08aff6724ddc080e5a24c6bb7ad24d2318))
+
 ## [7.0.1](https://github.com/rowanmanning/render-error-page/compare/v7.0.0...v7.0.1) (2025-03-30)
 
 
