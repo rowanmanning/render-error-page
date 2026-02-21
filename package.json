@@ -1,6 +1,6 @@
 {
   "name": "@rowanmanning/render-error-page",
-  "version": "7.1.0",
+  "version": "7.1.1",
   "description": "Render nice error pages with Express",
   "keywords": [
     "error",
